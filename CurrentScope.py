@@ -61,4 +61,12 @@ class CurrentScope(sublime_plugin.EventListener):
                         current_indent = indent
                     break
 
-        view.set_status('CurrentScope', ".".join(reversed(scopes))) if scopes else view.erase_status('CurrentScope')
+        # Status messages are ordered by key-name, so making this key
+        # the first character should make it the first message to
+        # appear.
+        scopeKey = chr(0)
+        if scopes:
+            scope = ".".join(reversed(scopes))
+            view.set_status(scopeKey, '--%s--' % scope)
+        else:
+            view.erase_status(scopeKey)
